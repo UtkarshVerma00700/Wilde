@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Oscar Wilde Quotes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      text-align: center;
+      padding: 40px;
+    }
+    #quote-container {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #444;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    #quote {
+      margin-bottom: 10px;
+    }
+    button#showQuote {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    button#showQuote:hover {
+      background-color: #555;
+    }
+    #heart-button {
+      font-size: 2em;
+      color: red;
+      border: none;
+      background: none;
+      cursor: pointer;
+      outline: none;
+    }
+    #hinglish {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #222;
+      background-color: #fff3f3;
+      border: 1px solid #f2a1a1;
+      border-radius: 8px;
+      padding: 15px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Oscar Wilde Quotes</h1>
+  <button id="showQuote" onclick="showRandomQuote()">Show Random Quote</button>
+
+  <div id="quote-container">
+    <div id="quote"></div>
+    <button id="heart-button" title="Show Hinglish Translation" onclick="toggleHinglish()">❤️</button>
+  </div>
+
+  <div id="hinglish"></div>
+
+  <script>
+    const quotes = [
+      "Be yourself; everyone else is already taken.",
+      "Always forgive your enemies; nothing annoys them so much.",
+      "To love oneself is the beginning of a lifelong romance.",
+      "To live is the rarest thing in the world. Most people exist, that is all.",
+      "I have the simplest tastes. I am always satisfied with the best.",
+      "A man’s face is his autobiography. A woman’s face is her work of fiction.",
+      "We are all in the gutter, but some of us are looking at the stars.",
+      "Some cause happiness wherever they go; others whenever they go.",
+      "The truth is rarely pure and never simple.",
+      "I can resist everything except temptation.",
+      "Experience is simply the name we give our mistakes.",
+      "No good deed goes unpunished.",
+      "I don't want to go to heaven. None of my friends are there.",
+      "The only way to get rid of temptation is to yield to it.",
+      "I am not young enough to know everything.",
+      "Morality is simply the attitude we adopt towards people we personally dislike.",
+      "A thing is not necessarily true because a man dies for it.",
+      "Women are made to be loved, not understood.",
+      "I never travel without my diary. One should always have something sensational to read in the train.",
+      "The old believe everything, the middle-aged suspect everything, the young know everything.",
+      "There are only two tragedies in life: one is not getting what one wants, and the other is getting it.",
+      "It is absurd to divide people into good and bad. People are either charming or tedious.",
+      "The only difference between the saint and the sinner is that every saint has a past, and every sinner has a future.",
+      "Man is least himself when he talks in his own person. Give him a mask, and he will tell you the truth.",
+      "The books that the world calls immoral are books that show the world its own shame.",
+      "Art is the most intense mode of individualism that the world has known.",
+      "Every portrait that is painted with feeling is a portrait of the artist, not of the sitter.",
+      "Fashion is a form of ugliness so intolerable that we have to alter it every six months.",
+      "The aim of life is self-development. To realize one's nature perfectly—that is what each of us is here for.",
+      "Selfishness is not living as one wishes to live, it is asking others to live as one wishes to live.",
+      "I choose my friends for their good looks, my acquaintances for their good characters, and my enemies for their good intellects.",
+      "A little sincerity is a dangerous thing, and a great deal of it is absolutely fatal.",
+      "What is a cynic? A man who knows the price of everything and the value of nothing.",
+      "One should always be in love. That is the reason one should never marry.",
+      "The good ended happily, and the bad unhappily. That is what Fiction means.",
+      "The only thing worse than being talked about is not being talked about.",
+      "I like men who have a future and women who have a past.",
+      "To be natural is such a very difficult pose to keep up.",
+      "Only dull people are brilliant at breakfast.",
+      "In matters of grave importance, style, not sincerity, is the vital thing.",
+      "When the gods wish to punish us, they answer our prayers.",
+      "There is no sin except stupidity.",
+      "A poet can survive everything but a misprint.",
+      "All women become like their mothers. That is their tragedy. No man does. That’s his.",
+      "An idea that is not dangerous is unworthy of being called an idea at all.",
+      "Ambition is the last refuge of the failure.",
+      "The only way to behave to a woman is to make love to her if she is pretty and to someone else if she is plain.",
+      "When one is in love, one always begins by deceiving oneself, and one always ends by deceiving others. That is what the world calls a romance.",
+      "Work is the curse of the drinking classes.",
+      "Bigamy is having one wife too many. Monogamy is the same.",
+      "He has no enemies, but is intensely disliked by his friends.",
+      "How can a woman be expected to be happy with a man who insists on treating her as if she were a perfectly normal human being.",
+      "One should never trust a woman who tells one her real age. A woman who would tell one that would tell one anything.",
+      "America is the only country that went from barbarism to decadence without civilization in between.",
+      "Consistency is the last refuge of the unimaginative.",
+      "If one tells the truth, one is sure, sooner or later, to be found out.",
+      "A gentleman is one who never hurts anyone’s feelings unintentionally.",
+      "Questions are never indiscreet. Answers sometimes are.",
+      "Life is far too important a thing ever to talk seriously about.",
+      "There is no necessity to separate the monarch from the mob; all authority is equally bad.",
+      "The difference between literature and journalism is that journalism is unreadable and literature is not read.",
+      "All art is quite useless.",
+      "I put all my genius into my life; I put only my talent into my works.",
+      "Nothing can cure the soul but the senses, just as nothing can cure the senses but the soul.",
+      "Life imitates art far more than art imitates life.",
+      "To define is to limit.",
+      "To be popular one must be a mediocrity.",
+      "Art is the only serious thing in the world. And the artist is the only person who is never serious.",
+      "If you are not too long, I will wait here for you all my life.",
+      "I have nothing to declare except my genius.",
+      "A man who does not think for himself does not think at all.",
+      "Society exists only as a mental concept; in the real world there are only individuals.",
+      "I see when men love women. They give them but a little of their lives. But women when they love give everything.",
+      "Arguments are to be avoided; they are always vulgar and often convincing.",
+      "The one charm of marriage is that it makes a life of deception absolutely necessary for both parties.",
+      "To love oneself is the beginning of a lifelong romance.",
+      "Life is not complex. We are complex. Life is simple, and the simple thing is the right thing.",
+      "A pessimist is somebody who complains about the noise when opportunity knocks.",
+      "Whenever people agree with me I always feel I must be wrong.",
+      "Selfishness is not living as one wishes to live, it is asking others to live as one wishes to live.",
+      "To get back my youth I would do anything in the world, except take exercise, get up early, or be respectable.",
+      "I think that God, in creating man, somewhat overestimated his ability.",
+      "Children begin by loving their parents; after a time they judge them; rarely, if ever, do they forgive them.",
+      "A thing is not necessarily true because a man dies for it.",
+      "There are moments when one has to choose between living one's own life, fully, entirely, completely – or dragging out some false, shallow, degrading existence that the world in its hypocrisy demands.",
+      "The only thing one can do with good advice is to pass it on. It is never of any use to oneself.",
+      "It takes great deal of courage to see the world in all its tainted glory, and still to love it.",
+      "We are each our own devil, and we make this world our hell.",
+      "A man can be happy with any woman as long as he does not love her.",
+      "No man is rich enough to buy back his past.",
+      "Life is too important to be taken seriously.",
+      "The world is a stage, but the play is badly cast.",
+      "There is only one thing in the world worse than being talked about, and that is not being talked about.",
+      "Everything in moderation, including moderation.",
+      "The public is wonderfully tolerant. It forgives everything except genius."
+    ];
+
+    // Hinglish translations in the same order as quotes (sample translations for demo)
+    const hinglish = [
+      "Khud bano; baaki sab pehle se hi kisi aur ki nakal hain.",
+      "Hamesha apne dushmano ko maaf karo; kyunki kuch bhi unhe zyada pareshan nahi karta.",
+      "Khud se pyaar karna ek lifetime romance ki shuruaat hai.",
+      "Jeena duniya mein sabse rare baat hai. Zyada tar log sirf exist karte hain.",
+      "Mere pas sabse simple pasand hai. Main hamesha best se santusht rehta hoon.",
+      "Ek aadmi ka chehra uski autobiography hoti hai. Aurat ka chehra uski kalpana.",
+      "Hum sab gutter mein hain, lekin kuch hum mein sitare dekh rahe hain.",
+      "Kuch log jahan bhi jaate hain khushi failate hain; kuch tab jab wo jaate hain.",
+      "Sachai kabhi pure nahi hoti aur kabhi simple nahi hoti.",
+      "Main sab kuch resist kar sakta hoon siwai temptation ke.",
+      "Tajurba sirf humari galtiyon ka naam hai.",
+      "Koi achha kaam bina saza ke nahi rehta.",
+      "Main swarg nahi jaana chahta. Mere dost wahan nahi hain.",
+      "Temptation se chutkaara paane ka ek hi tareeka hai - usme jeet jaana.",
+      "Main itna young nahi hoon ki sab kuch jaanu.",
+      "Naitikta bas woh drishti hai jo hum un logon ke prati rakhte hain jinko hum pasand nahi karte.",
+      "Kisi baat ka sach hona zaroori nahi jab tak koi uske liye mar jaye.",
+      "Aurat pyaar karne ke liye bani hai, samajhne ke liye nahi.",
+      "Main kabhi apni diary ke bina safar nahi karta. Train mein kuch zabardast padhna chahiye.",
+      "Buzurg sab kuch maante hain, madhyam umar waale sab kuch shak karte hain, jawaan sab kuch jaante hain.",
+      "Zindagi mein sirf do tragedies hain: chahiye nahi milna, aur mil jana.",
+      "Achha-bura logon ko baantna bekaar hai. Log ya toh charming hote hain ya boring.",
+      "Santa aur paapi mein farq itna hai ki santa ka past hota hai aur paapi ka future.",
+      "Insaan sabse kam apna hota hai jab wo apne asli roop mein baat karta hai. Mask do to sach bolta hai.",
+      "Jin kitabon ko duniya immoral kehti hai, wo duniya ko apni sharm dikhati hain.",
+      "Kala sabse intense individualism hai jo duniya ne dekha hai.",
+      "Har portrait artist ka apna jazba dikhata hai, na ki jise paint kiya gaya.",
+      "Fashion ek aisi badsurti hai jise hum har 6 mahine badalte hain.",
+      "Zindagi ka maksad apne aap ko perfect banana hai.",
+      "Swarthi hona matlab apni marzi se nahi jeena, dusron se apni marzi ka jeena mangna.",
+      "Main apne doston ko unke ache chehre ke liye, parichit ko achhe charitra ke liye, aur dushmano ko achhi buddhi ke liye chunata hoon.",
+      "Thodi sachai khatarnak hoti hai, aur bahut zyada jaanlewa.",
+      "Cynic ka matlab hai wo aadmi jo sab kuch ke daam jaanta hai, par uski kimat nahi.",
+      "Hamesha pyaar mein rehna chahiye. Isliye shadi nahi karni chahiye.",
+      "Achhe log khush khatam hote hain, bure dukhi. Yehi fiction ka matlab hai.",
+      "Baatein hone se bura kuch nahi, par na hone se bura kuch nahi.",
+      "Mujhe wo aadmi pasand hain jiska future ho aur wo aurat jo past rakhte hain.",
+      "Natural rehna sabse mushkil pose hai.",
+      "Sirf dull log breakfast par brilliant hote hain.",
+      "Serious baat mein style sincerity se zyada mahatvapurna hai.",
+      "Jab devta humein saza dena chahte hain, to wo hamari duaon ka jawab dete hain.",
+      "Bewakoofi ke siwa koi paap nahi hai.",
+      "Kavi sab kuch jhel sakta hai siwai galat printing ke.",
+      "Sab auratein apni maa jaisi ho jati hain, ye unka dukh hai. Aadmi nahi, wo apna dukh hai.",
+      "Ek aisi soch jo khatarnak nahi hai, wo soch nahi kehlati.",
+      "Ambition asafalta ka akhri sahara hai.",
+      "Ek aurat ke saath vyavhaar sirf tab sahi hai jab wo sundar ho, aur agar sadhaaran ho to kisi aur ke saath.",
+      "Jab koi pyaar karta hai, pehle wo khud ko dhokha deta hai, phir doosron ko. Isse romance kehte hain.",
+      "Kaam sharabi ke liye shraap hai.",
+      "Bigamy ka matlab hai ek patni zyada hona, monogamy bhi.",
+      "Uske koi dushman nahi hain, par dost bhi usse pasand nahi karte.",
+      "Kaise koi aurat khush ho sakti hai aise aadmi ke saath jo use ek normal insaan samajhta hai?",
+      "Kabhi kisi aurat par bharosa mat karo jo apni asli umr bata de.",
+      "America ek aisi jagah hai jo barbarism se decadence tak bina civilization ke chali gayi.",
+      "Consistency imagination ki kami ka aakhri sahara hai.",
+      "Sach bolne se jaldi ya der se pakda jayega.",
+      "A gentleman wo hai jo kisi ki feelings jaan bujhkar nahi dukhata.",
+      "Sawalon mein kabhi badtameezi nahi hoti. Jawaabon mein kabhi kabhi hoti hai.",
+      "Zindagi itni important hai ki ispar seriously baat na karni chahiye.",
+      "Satta tabhi buri hoti hai jab monarch aur mob alag kiye jate hain.",
+      "Literature aur journalism ka farq hai ki journalism padne layak nahi hoti, literature nahi padhi jati.",
+      "Sab kala bekaar hai.",
+      "Main apni zindagi mein apni genius daal deta hoon, apne kaam mein bas talent.",
+      "Kuch bhi aatma ko theek nahi kar sakta siwai indriyon ke, jaise kuch bhi indriyon ko theek nahi karta siwai aatma ke.",
+      "Zindagi kala ki nakal zyada karti hai.",
+      "Paribhasha dena simaon ka nirmaan hai.",
+      "Popular hone ke liye mediocrity hona zaroori hai.",
+      "Kala duniya ki ekmatra serious cheez hai, artist kabhi serious nahi hota.",
+      "Agar tum lamba nahi ho to main apni zindagi yahan tumhara intezaar karunga.",
+      "Mere paas kuch declare karne ko nahi siwai meri genius ke.",
+      "Jo aadmi apne liye sochta nahi, wo sochta nahi.",
+      "Samaj sirf mansik kalpana hai; vastavik duniya mein sirf vyakti hain.",
+      "Jab aadmi aurat se pyaar karte hain, to wo thoda zindagi dete hain. Par aurat jab pyaar karti hai to sab kuch deti hai.",
+      "Tark karna avoid karna chahiye; ye hamesha vulger aur kabhi kabhi convincing hota hai.",
+      "Shaadi ka ek hi charm hai ki dono ko jhooth bolna zaroori hota hai.",
+      "Khud se pyaar karna ek lifetime romance ka aarambh hai.",
+      "Zindagi complex nahi hai. Hum complex hain. Zindagi simple hai, aur simple cheez sahi hoti hai.",
+      "Niraashvaadi wo hai jo mauka milne par shor machata hai.",
+      "Jab log mere se sehmat hote hain, toh mujhe lagta hai ki main galat hoon.",
+      "Swarthi hona matlab apni marzi se nahi jeena, dusron se apni marzi mangna.",
+      "Apni jawani wapas paane ke liye main kuch bhi karunga siwai exercise karne, jaldi uthne, ya respectable hone ke.",
+      "Mujhe lagta hai ki Bhagwan ne insaan ko banate waqt uski kshamta ka andaza galat lagaya.",
+      "Bachche shuru mein apne mata-pita ko pyaar karte hain; phir unka moolyaankan karte hain; kabhi maaf nahi karte.",
+      "Kisi baat ka sach hona zaroori nahi jab koi uske liye mar jaye.",
+      "Aise pal aate hain jab apni asli zindagi jeeni hoti hai ya jhootha, khokla jeevan jine ka farq karna hota hai.",
+      "Achhi salah dena bas dusron tak pahunchana hai. Apne liye kabhi kaam ki nahi hoti.",
+      "Bade sahas ki zarurat hoti hai duniya ko uski kharab sachai dikhane aur phir bhi usse pyaar karne ke liye.",
+      "Hum sab apne hi shaitan hain, aur apna hi jahannam banate hain.",
+      "Ek aadmi kisi bhi aurat ke saath khush reh sakta hai jab tak wo usse pyaar nahi karta.",
+      "Koi bhi insaan apni guzi hui zindagi wapas nahi kharid sakta.",
+      "Zindagi itni important hai ki ise seriously lena bekaar hai.",
+      "Duniya ek manch hai, par kirdaar galat chune gaye hain.",
+      "Baaton mein sabse bura hota hai jab log aapke baare mein baat karte hain, aur usse bhi bura hai jab wo baat nahi karte.",
+      "Sab kuch maap-tol ke, maap-tol mein bhi.",
+      "Janta bahut tolerant hoti hai. Wo sab kuch maaf kar deti hai siwai genius ke."
+    ];
+
+    function showRandomQuote() {
+      const idx = Math.floor(Math.random() * quotes.length);
+      const quoteElem = document.getElementById("quote");
+      const hinglishElem = document.getElementById("hinglish");
+      quoteElem.textContent = quotes[idx];
+      hinglishElem.textContent = hinglish[idx];
+      hinglishElem.style.display = "none";  // hide translation initially
+    }
+
+    function toggleHinglish() {
+      const hinglishElem = document.getElementById("hinglish");
+      if (hinglishElem.style.display === "none" || hinglishElem.style.display === "") {
+        hinglishElem.style.display = "block";
+      } else {
+        hinglishElem.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
